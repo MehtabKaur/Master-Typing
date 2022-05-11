@@ -68,7 +68,7 @@ img {
 .home-banner {
   width: 100%;
   height: calc(100vh - 2%);
-  background-image: url('typing.png');
+  background-image: url(images/typing.png);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
