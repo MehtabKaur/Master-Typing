@@ -53,7 +53,8 @@
     </div>
   
     <div class="form">
-      <form action = "message.php" method = "post">
+        <!-- leave action empty so results display on same page -->
+      <form action = "" method = "post">
         <div class="input-container ic1">
           <input id="firstname" name = "FName" class="input" type="text" placeholder="First Name" required />
         </div>
@@ -71,11 +72,48 @@
         </div>
         <button type="submit" action = "message.php" method = "post" class="send-message">Send Message</button>
       </form>
+
+        <?php
+
+        if (isset($_POST['FName']) && isset($_POST['LName'])) {
+            //Get at form values
+            $FName = $_POST['FName'];
+            $LName = $_POST['LName'];
+            $UserEmail = $_POST['UserEmail'];
+            $UserMsg = $_POST['UserMsg'];
+
+            //If email and message field is not empty
+            if(!empty($UserEmail) && !empty($UserMsg)){ 
+                //If user entered email is valid
+                if(filter_var($UserEmail, FILTER_VALIDATE_EMAIL)){
+                $receiver = "kaur2shine@gmail.com"; //email receiver email address
+                $subject = "From: $FName $LName <$UserEmail>"; //subject of the email (Format: From: Example <example@gmail.com>)
+                $body = "Name: $FName $LName\nEmail: $UserEmail\n\nMessage:\n$UserMsg\n\nRegards,\n$FName $LName"; //concating all user values inside body variable
+                $sender = "From: $UserEmail"; //sender email
+                //mail() is inbuilt php function to send mail
+                if(mail($receiver, $subject, $body, $sender)){
+                    echo '<div id="confirmation"> Message sent successfully! ✓ </div>';
+                    //echo '<script type="text/javascript"> alert("Message sent successfully! ✓ ") </script>';
+                }
+                else{
+                    echo '<div class = "errorMsg"> Sorry, failed to send your message! </div>';
+                }
+                }
+                else{
+                    echo '<div class = "errorMsg"> Enter a valid email address! </div>';
+                    //echo '<script type="text/javascript"> alert("Enter valid email address") </script>';
+                }
+            }else{
+                echo '<div class = "errorMsg"> Email and message field is required! </div>';
+            }
+        }
+
+        ?>
+
     </div>
     <!-- Script  -->
     <!-- <script type="text/javascript" src="js/script.js"></script> -->
   </div>
-
 
   <footer>
     <div class="footer-sec">
